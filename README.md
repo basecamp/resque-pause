@@ -68,12 +68,6 @@ This global pause doesn't interact with any pauses on individual queues. That me
 
 An anology would be with light switches and circuit breakers. Positioning light switches is like pausing individual queues. Whatever their position before you flip the breaker (impose a global pause). They'll maintain that position after the global pause.
 
-### Default behaviour
-
-* When the job instance try to execute and the queue is paused, the job is paused for a slice of time.
-* If the queue still paused after this time the job will abort and will be enqueued again with the same arguments.
-
-
 Resque-Web integration
 ----------------------
 
@@ -85,29 +79,6 @@ require 'resque-pause/server'
 
 Customise & Extend
 ==================
-
-### Job pause check interval
-
-The slice of time the job will wait for queue be unpaused before abort the job
-could be changed with attribute @pause_check_interval.
-
-By default the time is 10 seconds.
-
-You can define the attribute in your job class in seconds.
-
-```ruby
-class UpdateNetworkGraph
-  extend Resque::Plugins::Pause
-  @queue = :network_graph
-  @pause_check_interval = 30
-
-  def self.perform(repo_id)
-    heavy_lifting
-  end
-end
-```
-
-The above modification will ensure the job will wait for 30 seconds before abort.
 
 ### Global pause Redis key
 
